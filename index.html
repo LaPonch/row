@@ -61,13 +61,18 @@ body::after {
   100% { transform: translate3d(-22px, 14px, 0); }
 }
 
-.page {
-  max-width: 900px;
-  margin: 0 auto;
-}
+.page { max-width: 900px; margin: 0 auto; }
 
+/* ── Page header row ── */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 22px;
+}
 .dash-title {
-  margin: 0 0 22px;
+  margin: 0;
   font-size: 28px;
   font-weight: 700;
   letter-spacing: -0.025em;
@@ -79,7 +84,27 @@ body::after {
 }
 @media (max-width: 480px) { .dash-title { font-size: 22px; } }
 
-/* ===== Bento Grid ===== */
+/* ── Gear button ── */
+.gear-btn {
+  width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+  border-radius: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background .15s, border-color .15s;
+}
+.gear-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); }
+.gear-btn:active .gear-icon { transform: rotate(22deg); }
+.gear-icon {
+  font-size: 20px;
+  line-height: 1;
+  transition: transform .18s cubic-bezier(.34,1.56,.64,1);
+  display: block;
+}
+
+/* ── Bento Grid ── */
 .bento {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -87,8 +112,6 @@ body::after {
   gap: 14px;
   grid-auto-flow: dense;
 }
-
-/* Glass tile base */
 .tile {
   position: relative;
   display: flex;
@@ -113,99 +136,169 @@ body::after {
   border-color: color-mix(in srgb, var(--accent) 40%, transparent);
   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
 }
-
-/* Size modifiers */
 .tile.big  { grid-column: span 2; grid-row: span 2; }
 .tile.wide { grid-column: span 2; }
-
-/* Tile content layout */
 .tile-num {
   font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: var(--text-tertiary);
-  line-height: 1;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+  color: var(--text-tertiary); line-height: 1;
 }
-
 .tile-emoji {
-  position: absolute;
-  top: 16px;
-  right: 18px;
-  font-size: 26px;
-  line-height: 1;
+  position: absolute; top: 16px; right: 18px;
+  font-size: 26px; line-height: 1;
   filter: drop-shadow(0 0 10px color-mix(in srgb, var(--accent) 70%, transparent));
-  pointer-events: none;
-  user-select: none;
+  pointer-events: none; user-select: none;
 }
 .tile.big .tile-emoji { font-size: 38px; top: 18px; right: 22px; }
-
 .tile-spacer { flex: 1; }
-
-.tile-title {
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--text-primary);
-  line-height: 1.2;
-  margin-bottom: 8px;
-}
+.tile-title { font-size: 17px; font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary); line-height: 1.2; margin-bottom: 8px; }
 .tile.big .tile-title { font-size: 22px; }
-
-.tile-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-.tile-sub {
-  font-size: 11px;
-  color: var(--text-tertiary);
-  line-height: 1.3;
-  flex: 1;
-}
-.tile-arrow {
-  font-size: 16px;
-  color: var(--accent);
-  font-weight: 700;
-  line-height: 1;
-  transition: transform 0.18s ease;
-  flex-shrink: 0;
-}
+.tile-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.tile-sub { font-size: 11px; color: var(--text-tertiary); line-height: 1.3; flex: 1; }
+.tile-arrow { font-size: 16px; color: var(--accent); font-weight: 700; line-height: 1; transition: transform 0.18s ease; flex-shrink: 0; }
 .tile:hover .tile-arrow { transform: translateX(4px); }
-
-/* Subtle inner glow accent on big tile */
 .tile.big::before {
-  content: '';
-  position: absolute;
-  inset: 0;
+  content: ''; position: absolute; inset: 0;
   background: radial-gradient(circle at 70% 100%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 55%);
-  pointer-events: none;
-  border-radius: inherit;
+  pointer-events: none; border-radius: inherit;
 }
 
-/* Responsive */
 @media (max-width: 720px) {
-  .bento {
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 148px;
-  }
+  .bento { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 148px; }
   .tile.big { grid-row: span 1; }
 }
 @media (max-width: 440px) {
   body { padding: max(20px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) 50px max(14px, env(safe-area-inset-left)); }
-  .bento {
-    grid-template-columns: 1fr;
-    grid-auto-rows: 130px;
-  }
+  .bento { grid-template-columns: 1fr; grid-auto-rows: 130px; }
   .tile.big, .tile.wide { grid-column: span 1; }
 }
+
+/* ═══════════════════════════════════════════
+   SETTINGS MODAL
+   ═══════════════════════════════════════════ */
+.modal-bg {
+  display: none;
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal-bg.show { display: flex; }
+
+.modal {
+  background: #111113;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  width: 100%; max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 24px;
+  position: relative;
+}
+
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 22px;
+}
+.modal-title {
+  font-size: 17px; font-weight: 700; color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+.modal-close {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  color: var(--text-tertiary); font-size: 18px; cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.modal-close:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); }
+
+/* Field rows */
+.field-row {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 14px; flex-wrap: wrap;
+}
+.field-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-tertiary); min-width: 110px;
+}
+.field-inputs { display: flex; align-items: center; gap: 6px; flex: 1; }
+.s-input {
+  padding: 9px 12px; border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; background: rgba(0,0,0,0.3);
+  color: var(--text-primary); font-family: inherit; font-size: 14px;
+  outline: none; transition: border-color .2s; width: 80px;
+}
+.s-input:focus { border-color: rgba(255,255,255,0.3); }
+.s-input.wide { width: 120px; }
+.s-input-sm { width: 58px; }
+
+/* Segmented toggle */
+.seg {
+  display: inline-flex; border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 9px; overflow: hidden;
+}
+.seg-btn {
+  padding: 8px 13px; border: 0; background: transparent;
+  color: var(--text-tertiary); font-family: inherit; font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: background .15s, color .15s;
+  white-space: nowrap;
+}
+.seg-btn.active { background: rgba(255,255,255,0.12); color: var(--text-primary); }
+
+/* Divider */
+.modal-divider { height: 1px; background: rgba(255,255,255,0.07); margin: 20px 0; }
+
+/* WHOOP card */
+.whoop-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.whoop-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.whoop-dot.connected { background: #6BE3A4; box-shadow: 0 0 6px rgba(107,227,164,0.6); }
+.whoop-dot.disconnected { background: var(--text-tertiary); }
+.whoop-status-text { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+.whoop-sync-line { font-size: 11px; color: var(--text-tertiary); margin-bottom: 10px; }
+.whoop-stats { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.whoop-stat { flex: 1; min-width: 80px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 10px; }
+.whoop-stat-val { font-size: 20px; font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+.whoop-stat-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); margin-top: 3px; }
+
+/* Save button */
+.save-row { display: flex; align-items: center; gap: 12px; margin-top: 6px; }
+.s-save {
+  padding: 11px 24px; border: 0; border-radius: 12px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #E8E5DD 100%);
+  color: #0A0A0B; font-family: inherit; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: transform .1s, filter .15s;
+}
+.s-save:hover { filter: brightness(1.06); transform: translateY(-1px); }
+.s-save:active { transform: translateY(0); }
+.save-confirm {
+  font-size: 13px; font-weight: 600; color: var(--success);
+  opacity: 0; transition: opacity .25s;
+}
+.save-confirm.show { opacity: 1; }
+
+/* Secondary button */
+.s-btn {
+  padding: 10px 18px; border: 1px solid rgba(255,255,255,0.1); border-radius: 11px;
+  background: rgba(255,255,255,0.04); color: var(--text-primary);
+  font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: background .15s; text-decoration: none; display: inline-block;
+}
+.s-btn:hover { background: rgba(255,255,255,0.08); }
 </style>
 </head>
 <body>
 <div class="page">
 
-  <h1 class="dash-title">Dashboard</h1>
+  <div class="page-header">
+    <h1 class="dash-title">Dashboard</h1>
+    <button class="gear-btn" id="gearBtn" aria-label="Settings">
+      <span class="gear-icon">⚙️</span>
+    </button>
+  </div>
 
   <div class="bento">
 
@@ -269,8 +362,350 @@ body::after {
       </div>
     </a>
 
-  </div>
+    <!-- 06 Caffeine — small -->
+    <a class="tile" href="caffeine.html" style="--accent:#C9A36B">
+      <div class="tile-num">·06</div>
+      <div class="tile-emoji">☕</div>
+      <div class="tile-spacer"></div>
+      <div class="tile-title">Caffeine</div>
+      <div class="tile-footer">
+        <span class="tile-sub">Intake &amp; timing</span>
+        <span class="tile-arrow">→</span>
+      </div>
+    </a>
 
+  </div>
 </div>
+
+<!-- ═══ SETTINGS MODAL ═══ -->
+<div class="modal-bg" id="settingsBg">
+  <div class="modal" id="settingsModal" role="dialog" aria-modal="true" aria-label="Your Data">
+
+    <div class="modal-header">
+      <div class="modal-title">Your Data</div>
+      <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+    </div>
+
+    <!-- Height -->
+    <div class="field-row">
+      <div class="field-label">Height</div>
+      <div class="field-inputs">
+        <div id="heightCmWrap">
+          <input class="s-input" id="heightCm" type="number" min="100" max="250" placeholder="cm">
+        </div>
+        <div id="heightFtWrap" style="display:none; gap:4px;" class="field-inputs">
+          <input class="s-input s-input-sm" id="heightFt" type="number" min="3" max="8" placeholder="ft">
+          <input class="s-input s-input-sm" id="heightIn" type="number" min="0" max="11" placeholder="in">
+        </div>
+        <div class="seg" id="heightUnitSeg">
+          <button class="seg-btn active" data-val="cm">cm</button>
+          <button class="seg-btn" data-val="ft">ft/in</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weight -->
+    <div class="field-row">
+      <div class="field-label">Weight</div>
+      <div class="field-inputs">
+        <input class="s-input" id="weightVal" type="number" min="20" max="300" placeholder="—">
+        <div class="seg" id="weightUnitSeg">
+          <button class="seg-btn active" data-val="kg">kg</button>
+          <button class="seg-btn" data-val="lb">lb</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Age -->
+    <div class="field-row">
+      <div class="field-label">Age</div>
+      <div class="field-inputs">
+        <input class="s-input" id="ageVal" type="number" min="10" max="120" placeholder="—">
+      </div>
+    </div>
+
+    <!-- Sex -->
+    <div class="field-row">
+      <div class="field-label">Sex</div>
+      <div class="field-inputs">
+        <div class="seg" id="sexSeg">
+          <button class="seg-btn active" data-val="m">Male</button>
+          <button class="seg-btn" data-val="f">Female</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity -->
+    <div class="field-row">
+      <div class="field-label">Active hrs/week</div>
+      <div class="field-inputs">
+        <input class="s-input" id="activityVal" type="number" min="0" max="40" step="0.5" placeholder="—">
+      </div>
+    </div>
+
+    <div class="save-row">
+      <button class="s-save" id="saveBtn">Save</button>
+      <span class="save-confirm" id="saveConfirm">Saved ✓</span>
+    </div>
+
+    <div class="modal-divider"></div>
+
+    <!-- WHOOP card -->
+    <div class="modal-title" style="font-size:13px; margin-bottom:12px; color:var(--text-tertiary); font-weight:700; letter-spacing:.1em; text-transform:uppercase;">WHOOP</div>
+    <div class="whoop-row">
+      <span class="whoop-dot" id="whoopDot"></span>
+      <span class="whoop-status-text" id="whoopStatusText">Checking…</span>
+    </div>
+    <div class="whoop-sync-line" id="whoopSyncLine"></div>
+    <div class="whoop-stats" id="whoopStats" style="display:none">
+      <div class="whoop-stat"><div class="whoop-stat-val" id="wsRecovery">—</div><div class="whoop-stat-label">Recovery</div></div>
+      <div class="whoop-stat"><div class="whoop-stat-val" id="wsSleep">—</div><div class="whoop-stat-label">Sleep</div></div>
+      <div class="whoop-stat"><div class="whoop-stat-val" id="wsHR">—</div><div class="whoop-stat-label">Rest HR</div></div>
+    </div>
+    <div id="whoopActionWrap"></div>
+
+  </div>
+</div>
+
+<script>
+(function () {
+'use strict';
+
+/* ── Defaults (mirrors topbar.js defaultWaterState) ── */
+function defaultWater() {
+  return { unit:'bottle', bottleMl:500, glassMl:250, weightUnit:'kg',
+    profile:{ weightKg:75, age:25, sex:'m', activityHrsPerWeek:5 },
+    caffeineMgPerDay:200, substances:[], logs:{} };
+}
+function loadWater() {
+  try { return JSON.parse(localStorage.getItem('po_water_v1')) || defaultWater(); }
+  catch(e) { return defaultWater(); }
+}
+function saveWater(w) { localStorage.setItem('po_water_v1', JSON.stringify(w)); }
+
+/* ── Helpers ── */
+function round1(v) { return Math.round(v * 10) / 10; }
+function cmToFt(cm) { const totalIn = cm / 2.54; return { ft: Math.floor(totalIn/12), inches: round1(totalIn%12) }; }
+function ftToCm(ft, inches) { return round1((ft*12 + inches) * 2.54); }
+function kgToLb(kg) { return round1(kg * 2.20462); }
+function lbToKg(lb) { return round1(lb / 2.20462); }
+
+/* ── Modal state ── */
+let heightUnit = 'cm', weightUnit = 'kg', sexVal = 'm';
+
+/* ── Gear / open ── */
+document.getElementById('gearBtn').addEventListener('click', openModal);
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('settingsBg').addEventListener('click', e => { if (e.target === document.getElementById('settingsBg')) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+function openModal() {
+  prefillModal();
+  document.getElementById('settingsBg').classList.add('show');
+  document.body.classList.add('topbar-modal-open');
+  autoSyncWhoop();
+}
+function closeModal() {
+  document.getElementById('settingsBg').classList.remove('show');
+  document.body.classList.remove('topbar-modal-open');
+}
+
+/* ── Pre-fill ── */
+function prefillModal() {
+  const w = loadWater();
+  const p = w.profile || {};
+
+  // weight
+  weightUnit = w.weightUnit || 'kg';
+  const rawKg = p.weightKg || 75;
+  setSegActive('weightUnitSeg', weightUnit);
+  document.getElementById('weightVal').value = weightUnit === 'lb' ? kgToLb(rawKg) : round1(rawKg);
+
+  // height
+  heightUnit = p.heightUnit || 'cm';
+  const rawCm = p.heightCm || 170;
+  setSegActive('heightUnitSeg', heightUnit);
+  if (heightUnit === 'ft') {
+    const { ft, inches } = cmToFt(rawCm);
+    document.getElementById('heightFt').value = ft;
+    document.getElementById('heightIn').value = inches;
+    document.getElementById('heightCmWrap').style.display = 'none';
+    document.getElementById('heightFtWrap').style.display = 'flex';
+  } else {
+    document.getElementById('heightCm').value = round1(rawCm);
+    document.getElementById('heightCmWrap').style.display = '';
+    document.getElementById('heightFtWrap').style.display = 'none';
+  }
+
+  // other
+  document.getElementById('ageVal').value = p.age || '';
+  sexVal = p.sex || 'm';
+  setSegActive('sexSeg', sexVal);
+  document.getElementById('activityVal').value = p.activityHrsPerWeek || '';
+}
+
+function setSegActive(segId, val) {
+  document.querySelectorAll('#' + segId + ' .seg-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.val === val);
+  });
+}
+
+/* ── Seg toggles ── */
+document.querySelectorAll('#heightUnitSeg .seg-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const prev = heightUnit;
+    heightUnit = btn.dataset.val;
+    setSegActive('heightUnitSeg', heightUnit);
+    if (heightUnit === 'ft' && prev === 'cm') {
+      const cm = parseFloat(document.getElementById('heightCm').value) || 170;
+      const { ft, inches } = cmToFt(cm);
+      document.getElementById('heightFt').value = ft;
+      document.getElementById('heightIn').value = inches;
+    } else if (heightUnit === 'cm' && prev === 'ft') {
+      const ft = parseFloat(document.getElementById('heightFt').value) || 5;
+      const inches = parseFloat(document.getElementById('heightIn').value) || 9;
+      document.getElementById('heightCm').value = ftToCm(ft, inches);
+    }
+    document.getElementById('heightCmWrap').style.display = heightUnit === 'cm' ? '' : 'none';
+    document.getElementById('heightFtWrap').style.display = heightUnit === 'ft' ? 'flex' : 'none';
+  });
+});
+
+document.querySelectorAll('#weightUnitSeg .seg-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const prev = weightUnit;
+    weightUnit = btn.dataset.val;
+    setSegActive('weightUnitSeg', weightUnit);
+    const cur = parseFloat(document.getElementById('weightVal').value);
+    if (!isNaN(cur)) {
+      if (weightUnit === 'lb' && prev === 'kg') document.getElementById('weightVal').value = kgToLb(cur);
+      else if (weightUnit === 'kg' && prev === 'lb') document.getElementById('weightVal').value = lbToKg(cur);
+    }
+  });
+});
+
+document.querySelectorAll('#sexSeg .seg-btn').forEach(btn => {
+  btn.addEventListener('click', () => { sexVal = btn.dataset.val; setSegActive('sexSeg', sexVal); });
+});
+
+/* ── Save ── */
+let confirmTimer;
+document.getElementById('saveBtn').addEventListener('click', () => {
+  const w = loadWater();
+  w.profile = w.profile || {};
+
+  // weight
+  const wv = parseFloat(document.getElementById('weightVal').value);
+  if (!isNaN(wv) && wv > 0) {
+    w.profile.weightKg = weightUnit === 'lb' ? lbToKg(wv) : wv;
+    w.weightUnit = weightUnit;
+  }
+
+  // height
+  let cmVal;
+  if (heightUnit === 'ft') {
+    const ft = parseFloat(document.getElementById('heightFt').value) || 0;
+    const inches = parseFloat(document.getElementById('heightIn').value) || 0;
+    cmVal = ftToCm(ft, inches);
+  } else {
+    cmVal = parseFloat(document.getElementById('heightCm').value);
+  }
+  if (!isNaN(cmVal) && cmVal > 0) { w.profile.heightCm = cmVal; w.profile.heightUnit = heightUnit; }
+
+  // age, sex, activity
+  const age = parseInt(document.getElementById('ageVal').value, 10);
+  if (!isNaN(age) && age > 0) w.profile.age = age;
+  w.profile.sex = sexVal;
+  const act = parseFloat(document.getElementById('activityVal').value);
+  if (!isNaN(act) && act >= 0) w.profile.activityHrsPerWeek = act;
+
+  saveWater(w);
+  window.dispatchEvent(new Event('storage'));
+
+  const confirm = document.getElementById('saveConfirm');
+  confirm.classList.add('show');
+  clearTimeout(confirmTimer);
+  confirmTimer = setTimeout(() => confirm.classList.remove('show'), 1800);
+});
+
+/* ── WHOOP panel ── */
+async function autoSyncWhoop() {
+  const tok = getWhoopTokens();
+  if (!tok) { renderWhoopDisconnected(); return; }
+  renderWhoopConnected(null, null, null);
+  await syncWhoop(tok);
+}
+
+function getWhoopTokens() {
+  try { return JSON.parse(localStorage.getItem('whoop_tokens_v1')); } catch(e) { return null; }
+}
+
+function renderWhoopDisconnected() {
+  document.getElementById('whoopDot').className = 'whoop-dot disconnected';
+  document.getElementById('whoopStatusText').textContent = 'Not connected';
+  document.getElementById('whoopSyncLine').textContent = '';
+  document.getElementById('whoopStats').style.display = 'none';
+  const aw = document.getElementById('whoopActionWrap');
+  aw.innerHTML = '';
+  const a = document.createElement('a');
+  a.className = 's-btn'; a.href = 'health.html'; a.textContent = 'Connect on Health page';
+  aw.appendChild(a);
+}
+
+function renderWhoopConnected(recovery, sleep, restHr) {
+  document.getElementById('whoopDot').className = 'whoop-dot connected';
+  document.getElementById('whoopStatusText').textContent = 'Connected';
+  // last sync time
+  const lastSync = localStorage.getItem('whoop_last_sync');
+  if (lastSync) {
+    const mins = Math.round((Date.now() - parseInt(lastSync, 10)) / 60000);
+    document.getElementById('whoopSyncLine').textContent = 'Last synced ' + (mins < 1 ? 'just now' : mins + ' min ago');
+  } else {
+    document.getElementById('whoopSyncLine').textContent = 'Syncing…';
+  }
+  if (recovery !== null) {
+    document.getElementById('whoopStats').style.display = 'flex';
+    document.getElementById('wsRecovery').textContent = recovery != null ? Math.round(recovery) + '%' : '—';
+    document.getElementById('wsSleep').textContent = sleep != null ? Math.round(sleep) + '%' : '—';
+    document.getElementById('wsHR').textContent = restHr != null ? Math.round(restHr) : '—';
+  }
+  const aw = document.getElementById('whoopActionWrap');
+  aw.innerHTML = '';
+  const btn = document.createElement('button');
+  btn.className = 's-btn'; btn.textContent = 'Sync now';
+  btn.addEventListener('click', async () => {
+    btn.textContent = 'Syncing…'; btn.disabled = true;
+    const tok = getWhoopTokens();
+    if (tok) await syncWhoop(tok);
+    btn.textContent = 'Sync now'; btn.disabled = false;
+  });
+  aw.appendChild(btn);
+}
+
+async function syncWhoop(tok) {
+  try {
+    let resp = await fetch('/api/whoop-data?type=recovery', { headers: { Authorization: 'Bearer ' + tok.access_token }});
+    if (resp.status === 401) {
+      const rr = await fetch('/api/whoop-refresh', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ refresh_token: tok.refresh_token })});
+      if (!rr.ok) { renderWhoopDisconnected(); return; }
+      const nt = await rr.json();
+      tok = Object.assign({}, tok, nt);
+      localStorage.setItem('whoop_tokens_v1', JSON.stringify(tok));
+      resp = await fetch('/api/whoop-data?type=recovery', { headers: { Authorization: 'Bearer ' + tok.access_token }});
+    }
+    let recovery = null, sleep = null, restHr = null;
+    if (resp.ok) {
+      const d = await resp.json();
+      if (d) { recovery = d.recovery_score; sleep = d.sleep_performance_percentage; restHr = d.resting_heart_rate; }
+    }
+    localStorage.setItem('whoop_last_sync', String(Date.now()));
+    renderWhoopConnected(recovery, sleep, restHr);
+  } catch(e) {
+    renderWhoopDisconnected();
+  }
+}
+
+})();
+</script>
 </body>
 </html>
